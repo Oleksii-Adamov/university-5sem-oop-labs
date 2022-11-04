@@ -2,6 +2,7 @@ package bouquet;
 
 import accessory.Accessory;
 import flower.Flower;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,11 +23,15 @@ public class Bouquet {
         this.flowers = flowers;
         this.accessories = accessories;
         this.cost = 0;
-        for (Flower flower : flowers) {
-            cost += flower.getCost();
+        if (flowers != null) {
+            for (Flower flower : flowers) {
+                cost += flower.getCost();
+            }
         }
-        for (Accessory accessory : accessories) {
-            cost += accessory.getCost();
+        if (accessories != null) {
+            for (Accessory accessory : accessories) {
+                cost += accessory.getCost();
+            }
         }
     }
 

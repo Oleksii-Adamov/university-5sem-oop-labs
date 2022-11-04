@@ -2,6 +2,10 @@ package currency;
 
 public class Currency {
 
+    private Currency() {
+
+    }
+
     public static String hryvnias(int cost) {
         return cost/100 + " гривень " + cost % 100 + " копійнок";
     }
