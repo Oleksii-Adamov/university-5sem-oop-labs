@@ -8,11 +8,11 @@ public class SecondPartRunnable implements Runnable {
 
     private double[] blockSolutions;
 
-    public SecondPartRunnable(double[][] sparseMatrix, int blockNum, int blockSize, double lastSolution) {
+    public SecondPartRunnable(double[][] sparseMatrix, int blockNum, int blockSize, double lastSolution, double[] blockSolutions) {
         this.sparseMatrix = sparseMatrix;
         this.blockNum = blockNum;
         this.blockSize = blockSize;
-        blockSolutions = new double[blockSize];
+        this.blockSolutions = blockSolutions;
         blockSolutions[blockSize - 1] = lastSolution;
     }
 
@@ -24,4 +24,5 @@ public class SecondPartRunnable implements Runnable {
             blockSolutions[i] = (sparseMatrix[i][3] - sparseMatrix[i][2] * blockSolutions[i+1]) / sparseMatrix[i][1];
         }
     }
+
 }
