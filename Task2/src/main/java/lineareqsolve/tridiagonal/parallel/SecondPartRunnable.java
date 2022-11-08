@@ -8,11 +8,14 @@ public class SecondPartRunnable implements Runnable {
 
     private double[] blockSolutions;
 
-    public SecondPartRunnable(double[][] sparseMatrix, int blockNum, int blockSize, double lastSolution, double[] blockSolutions) {
+    private double prevBlockSolution;
+
+    public SecondPartRunnable(double[][] sparseMatrix, int blockNum, int blockSize, double lastSolution, double prevBlockSolution, double[] blockSolutions) {
         this.sparseMatrix = sparseMatrix;
         this.blockNum = blockNum;
         this.blockSize = blockSize;
         this.blockSolutions = blockSolutions;
+        this.prevBlockSolution = prevBlockSolution;
         blockSolutions[blockSize - 1] = lastSolution;
     }
 
@@ -21,7 +24,7 @@ public class SecondPartRunnable implements Runnable {
         int offset = blockNum * blockSize;
         for (int it = blockSize - 2; it >= 0; it--) {
             int i = offset + it;
-            blockSolutions[i] = (sparseMatrix[i][3] - sparseMatrix[i][2] * blockSolutions[i+1]) / sparseMatrix[i][1];
+            blockSolutions[it] = (sparseMatrix[i][3] - sparseMatrix[i][2] * blockSolutions[blockSize - 1] - sparseMatrix[i][0] * prevBlockSolution) / sparseMatrix[i][1];
         }
     }
 

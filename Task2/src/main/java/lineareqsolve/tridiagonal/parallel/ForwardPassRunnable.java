@@ -1,12 +1,13 @@
 package lineareqsolve.tridiagonal.parallel;
 
-public class FirstPartRunnable implements Runnable {
+public class ForwardPassRunnable implements Runnable {
+
     private double[][] sparseMatrix;
     private int blockNum;
 
     private int blockSize;
 
-    public FirstPartRunnable(double[][] sparseMatrix, int blockNum, int blockSize) {
+    public ForwardPassRunnable(double[][] sparseMatrix, int blockNum, int blockSize) {
         this.sparseMatrix = sparseMatrix;
         this.blockNum = blockNum;
         this.blockSize = blockSize;
@@ -27,23 +28,6 @@ public class FirstPartRunnable implements Runnable {
 //            sparseMatrix[i+1][0] = (-1) * sparseMatrix[i][0] * multiplier;
 //            sparseMatrix[i+1][1] -= sparseMatrix[i][2] * multiplier;
 //            sparseMatrix[i+1][3] -= sparseMatrix[i][3] * multiplier;
-//        }
-        // backward pass
-        for (int i = offset + blockSize - 2; i >= offset - 1; i--) {
-            if (i >= 0) {
-                double multiplier = sparseMatrix[i][2] / sparseMatrix[i + 1][1];
-                sparseMatrix[i][0] -= sparseMatrix[i + 1][0] * multiplier;
-                sparseMatrix[i][2] = (-1) * sparseMatrix[i + 1][2] * multiplier;
-                sparseMatrix[i][3] -= sparseMatrix[i][3] * multiplier;
-            }
-        }
-//        for (int i = offset + blockSize - 1; i >= offset; i--) {
-//            if (i - 1 >= 0) {
-//                double multiplier = sparseMatrix[i-1][2] / sparseMatrix[i][1];
-//                sparseMatrix[i-1][0] -= sparseMatrix[i][0] * multiplier;
-//                sparseMatrix[i-1][2] = (-1) * sparseMatrix[i][2] * multiplier;
-//                sparseMatrix[i-1][3] -= sparseMatrix[i][3] * multiplier;
-//            }
 //        }
     }
 }

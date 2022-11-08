@@ -11,7 +11,7 @@ public class LESolveTridiagonalSequential implements LESolveTridiagonal {
         // forward pass
         double[] alphas = new double[size - 1];
         double[] betas = new double[size - 1];
-        alphas[0] = -underDiagonal[0] / diagonal[0];
+        alphas[0] = -upDiagonal[0] / diagonal[0];
         betas[0] = rightCoef[0] / diagonal[0];
         for (int i = 1; i < size - 1; i++) {
             double z = underDiagonal[i-1] * alphas[i-1] + diagonal[i];

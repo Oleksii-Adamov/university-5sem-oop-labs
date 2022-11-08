@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="lineareqsolve.tridiagonal.parallel.LESolveTridiagonalParallelTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-11-08T19:06:06" hostname="DESKTOP-ARIKE4S" time="0.04">
+  <properties/>
+  <testcase name="solveExample()" classname="lineareqsolve.tridiagonal.parallel.LESolveTridiagonalParallelTest" time="0.04"/>
+  <system-out><![CDATA[2 locked self
+2 locked previous
+sparse matrix after backward
+[[-0.3333333333333333, 1.0, -0.6666666666666666, 0.6666666666666667], [1.0, 3.0, 2.0, 1.0], [1.0, 2.0, 0.0, 1.0]]
+Seq matrix
+[1.0, 1.0]
+[1.0, 3.0, 2.0]
+[-0.6666666666666666, 2.0]
+[0.6666666666666667, 1.0, 1.0]
+example solution: [0.5, -0.25000000000000006, 0.625]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
