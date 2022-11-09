@@ -67,6 +67,10 @@ public class LESolveTridiagonalParallel implements LESolveTridiagonal {
             }
             sparseMatrix[i][3] = rightCoef[i];
         }
+
+        System.out.println("sparse matrix");
+        System.out.println(Arrays.deepToString(sparseMatrix));
+
         Thread[] threads = new Thread[numThreads];
         int blockSize = size / numThreads;
 //        int lastBlockSize = blockSize - size % numThreads;
@@ -80,6 +84,9 @@ public class LESolveTridiagonalParallel implements LESolveTridiagonal {
 //        threads[numThreads - 1] = new Thread(new FirstPartRunnable(sparseMatrix, numThreads - 1,
 //                lastBlockSize));
         joinThreads(threads);
+
+        System.out.println("sparse matrix after forward");
+        System.out.println(Arrays.deepToString(sparseMatrix));
 
         // backward pass
         // initializing locks
@@ -123,6 +130,9 @@ public class LESolveTridiagonalParallel implements LESolveTridiagonal {
         // collecting full solution from previous sequential solution within different threads
         double[] seqSolution = sequentialSolver.solve(seqUnderDiagonal, seqDiagonal, seqUpDiagonal, seqRightCoef);
         double[][] blocksSolutions = new double[numThreads][blockSize];
+
+        System.out.println("Seq solution");
+        System.out.println(Arrays.toString(seqSolution));
 
         for (int i = 0; i < numThreads; i++) {
             threads[i] = new Thread(new SecondPartRunnable(sparseMatrix, i, blockSize, seqSolution[i],

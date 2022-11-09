@@ -26,10 +26,10 @@ class LESolveTridiagonalParallelTest {
 
     @Test
     void solveExample() {
-        double[] diagonal = new double[] {1, 3, 2};
-        double[] underDiagonal = new double[] {1, 1};
-        double[] upDiagonal = new double[] {1, 2};
-        double[] rightCoef = new double[] {1, 1, 1};
+//        double[] diagonal = new double[] {1, 3, 2};
+//        double[] underDiagonal = new double[] {1, 1};
+//        double[] upDiagonal = new double[] {1, 2};
+//        double[] rightCoef = new double[] {1, 1, 1};
 //        //LESolveTridiagonalParallel solver = new LESolveTridiagonalParallel(numThreads);
 //        LESolveTridiagonal solver = new LESolveTridiagonalSequential();
 //        double[] algoSolutionArr =  solver.solve(underDiagonal, diagonal, upDiagonal, rightCoef);
@@ -38,10 +38,10 @@ class LESolveTridiagonalParallelTest {
 //        double[] underDiagonal = new double[] {6, 5, 4, 3, 2};
 //        double[] upDiagonal = new double[] {2, 3, 4, 5, 6};
 //        double[] rightCoef = new double[] {5, 17, 29, 41, 53, 16};
-//        double[] diagonal = new double[] {6, 7, 8, 9, 10, 11};
-//        double[] underDiagonal = new double[] {2, 2, 2, 2, 2};
-//        double[] upDiagonal = new double[] {3, 3, 3, 3, 3};
-//        double[] rightCoef = new double[] {12, 25, 40, 57, 76, 76};
+        double[] diagonal = new double[] {6, 7, 8, 9, 10, 11};
+        double[] underDiagonal = new double[] {2, 2, 2, 2, 2};
+        double[] upDiagonal = new double[] {3, 3, 3, 3, 3};
+        double[] rightCoef = new double[] {12, 25, 40, 57, 76, 76};
         //LESolveTridiagonalParallel solver = new LESolveTridiagonalParallel(numThreads);
         LESolveTridiagonal solver = new LESolveTridiagonalParallel(3);
         double[] algoSolutionArr =  solver.solve(underDiagonal, diagonal, upDiagonal, rightCoef);
