@@ -36,6 +36,7 @@ public class LESolveTridiagonalParallel implements LESolveTridiagonal {
         }
     }
 
+    // algorithm: http://www.unn.ru/pages/e-library/methodmaterial/files/9.pdf
     @Override
     public double[] solve(TridiagonalMatrix tridiagonalMatrix) {
         size = tridiagonalMatrix.diagonal.length;
