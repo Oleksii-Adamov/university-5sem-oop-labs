@@ -2,10 +2,9 @@ package bouquet;
 
 import accessory.Accessory;
 import flower.Flower;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Bouquet {
@@ -58,7 +57,7 @@ public class Bouquet {
     }
 
     public void sortFlowersByFreshness() {
-        Collections.sort(flowers, (lhs, rhs) -> Integer.compare(lhs.getDaysAfterGathering(), rhs.getDaysAfterGathering()));
+        flowers.sort(Comparator.comparingInt(Flower::getDaysAfterGathering));
     }
 
     // including borders, so [low, high]

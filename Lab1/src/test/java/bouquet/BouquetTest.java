@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BouquetTest {
 
     private int testSize = 100;
+    private int numRandTests = 10;
 
     private Flower randomFlower() {
         return new Flower("test", Color.RED, ThreadLocalRandom.current().nextInt(10, 30),
@@ -61,65 +62,72 @@ class BouquetTest {
 
     @Test
     void getCost() {
-        int cost = 0;
-        Flower[] flowers = new Flower[testSize / 2 + testSize % 2];
-        Accessory[] accessories = new Accessory[testSize / 2];
-        for (int i = 0; i < testSize / 2; i++) {
-            flowers[i] = randomFlower();
-            accessories[i] = randomAccessory();
-            cost += flowers[i].getCost() + accessories[i].getCost();
+        for (int t = 0; t < numRandTests; t++) {
+            int cost = 0;
+            Flower[] flowers = new Flower[testSize / 2 + testSize % 2];
+            Accessory[] accessories = new Accessory[testSize / 2];
+            for (int i = 0; i < testSize / 2; i++) {
+                flowers[i] = randomFlower();
+                accessories[i] = randomAccessory();
+                cost += flowers[i].getCost() + accessories[i].getCost();
+            }
+            if (testSize % 2 == 1) flowers[testSize / 2] = randomFlower();
+            Bouquet bouquet = new Bouquet(List.of(flowers), List.of(accessories));
+            assertEquals(cost, bouquet.getCost());
         }
-        if (testSize % 2 == 1) flowers[testSize / 2] = randomFlower();
-        Bouquet bouquet = new Bouquet(List.of(flowers), List.of(accessories));
-        assertEquals(cost, bouquet.getCost());
     }
 
     @Test
     void addFlower() {
-        Bouquet bouquet = new Bouquet();
-
-        Flower[] flowers = new Flower[testSize];
-        for (int i = 0; i < testSize; i++) {
-            Flower flower = randomFlower();
-            flowers[i] = flower;
-            bouquet.addFlower(flower);
-            assertEquals(i + 1, bouquet.getFlowers().size());
-            int cost = 0;
-            for (int j = 0; j <= i; j++) {
-                assertTrue(bouquet.getFlowers().contains(flowers[j]));
-                cost += flowers[j].getCost();
+        for (int t = 0; t < numRandTests; t++) {
+            Bouquet bouquet = new Bouquet();
+            Flower[] flowers = new Flower[testSize];
+            for (int i = 0; i < testSize; i++) {
+                Flower flower = randomFlower();
+                flowers[i] = flower;
+                bouquet.addFlower(flower);
+                assertEquals(i + 1, bouquet.getFlowers().size());
+                int cost = 0;
+                for (int j = 0; j <= i; j++) {
+                    assertTrue(bouquet.getFlowers().contains(flowers[j]));
+                    cost += flowers[j].getCost();
+                }
+                assertEquals(cost, bouquet.getCost());
             }
-            assertEquals(cost, bouquet.getCost());
         }
     }
 
     @Test
     void addAccessory() {
-        Bouquet bouquet = new Bouquet();
-        Accessory[] accessories = new Accessory[testSize];
-        for (int i = 0; i < testSize; i++) {
-            Accessory accessory = randomAccessory();
-            accessories[i] = accessory;
-            bouquet.addAccessory(accessory);
-            assertEquals(i + 1, bouquet.getAccessories().size());
-            int cost = 0;
-            for (int j = 0; j <= i; j++) {
-                assertTrue(bouquet.getAccessories().contains(accessories[j]));
-                cost += accessories[j].getCost();
+        for (int t = 0; t < numRandTests; t++) {
+            Bouquet bouquet = new Bouquet();
+            Accessory[] accessories = new Accessory[testSize];
+            for (int i = 0; i < testSize; i++) {
+                Accessory accessory = randomAccessory();
+                accessories[i] = accessory;
+                bouquet.addAccessory(accessory);
+                assertEquals(i + 1, bouquet.getAccessories().size());
+                int cost = 0;
+                for (int j = 0; j <= i; j++) {
+                    assertTrue(bouquet.getAccessories().contains(accessories[j]));
+                    cost += accessories[j].getCost();
+                }
+                assertEquals(cost, bouquet.getCost());
             }
-            assertEquals(cost, bouquet.getCost());
         }
     }
 
     @Test
     void sortFlowersByFreshness() {
-        Bouquet bouquet = new Bouquet();
-        for (int i = 0; i < testSize; i++) {
-            bouquet.addFlower(randomFlower());
-        }
-        bouquet.sortFlowersByFreshness();
-        for (int i = 1; i < testSize; i++) {
-            assertTrue(bouquet.getFlowers().get(i - 1).getDaysAfterGathering() <= bouquet.getFlowers().get(i).getDaysAfterGathering());
+        for (int t = 0; t < numRandTests; t++) {
+            Bouquet bouquet = new Bouquet();
+            for (int i = 0; i < testSize; i++) {
+                bouquet.addFlower(randomFlower());
+            }
+            bouquet.sortFlowersByFreshness();
+            for (int i = 1; i < testSize; i++) {
+                assertTrue(bouquet.getFlowers().get(i - 1).getDaysAfterGathering() <= bouquet.getFlowers().get(i).getDaysAfterGathering());
+            }
         }
     }
 

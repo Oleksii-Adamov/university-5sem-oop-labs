@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="currency.CurrencyTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-11-04T18:55:38" hostname="DESKTOP-ARIKE4S" time="0.011">
-  <properties/>
-  <testcase name="hryvnias()" classname="currency.CurrencyTest" time="0.008"/>
-  <testcase name="hryvniasToCost()" classname="currency.CurrencyTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
