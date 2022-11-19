@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="flower">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="xs:string" name="name"/>
+        <xs:element type="soil" name="soil"/>
+        <xs:element type="xs:string" name="origin"/>
+        <xs:element name="visualParameters">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="stemColor"/>
+              <xs:element type="xs:string" name="leafColor"/>
+              <xs:element type="xs:decimal" name="meanSize"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="growingTips">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:decimal" name="temperature"/>
+              <xs:element type="stringBoolean" name="preferLighting"/>
+              <xs:element type="xs:decimal" name="watering"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="multiplying" name="multiplying"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="soil" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="podzol"/>
+      <xs:enumeration value="dirt"/>
+      <xs:enumeration value="sod-podzol"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="multiplying" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="leafs"/>
+      <xs:enumeration value="seeds"/>
+      <xs:enumeration value="cuttings"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="stringBoolean" final="restriction" >
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true"/>
+      <xs:enumeration value="false"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

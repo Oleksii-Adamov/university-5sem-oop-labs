@@ -1,0 +1,9 @@
+
+`	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ
+h
+java:S1450"SRemove the "size" field and declare it as a local variable in the relevant methods.(‰öÆ)
+q
+java:S1450
+"[Remove the "sparseMatrix" field and declare it as a local variable in the relevant methods.(ïÚºÛ
+h
+java:S3776)"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(é¤×þ

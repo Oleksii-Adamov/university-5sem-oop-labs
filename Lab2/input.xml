@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flower>
+    <name>Rose</name>
+    <soil>podzol</soil>
+    <origin>Ukraine</origin>
+    <visualParameters>
+        <stemColor>green</stemColor>
+        <leafColor>red</leafColor>
+        <meanSize>50</meanSize>
+    </visualParameters>
+    <growingTips>
+        <temperature>20</temperature>
+        <preferLighting>true</preferLighting>
+        <watering>100</watering>
+    </growingTips>
+    <multiplying>seeds</multiplying>
+</flower>
