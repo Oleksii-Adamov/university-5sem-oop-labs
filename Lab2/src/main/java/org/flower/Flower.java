@@ -1,15 +1,11 @@
 package org.flower;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-import org.xmlvalidation.XMLValidation;
+import org.flower.parsexml.FlowerDOMXMLParser;
+import org.flower.parsexml.FlowerSAXXMLParser;
+import org.flower.parsexml.FlowerStAXXMLParser;
+import org.flower.parsexml.FlowerXMLParser;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import java.util.Objects;
 
 public class Flower {
     private String name;
@@ -19,6 +15,17 @@ public class Flower {
     private VisualParameters visualParameters;
     private GrowingTips growingTips;
     private Multiplying multiplying;
+
+    public Flower() {}
+
+    public Flower(String name, Soil soil, String origin, VisualParameters visualParameters, GrowingTips growingTips, Multiplying multiplying) {
+        this.name = name;
+        this.soil = soil;
+        this.origin = origin;
+        this.visualParameters = visualParameters;
+        this.growingTips = growingTips;
+        this.multiplying = multiplying;
+    }
 
     public String getName() {
         return name;
@@ -52,6 +59,22 @@ public class Flower {
         this.multiplying = multiplying;
     }
 
+    public VisualParameters getVisualParameters() {
+        return visualParameters;
+    }
+
+    public void setVisualParameters(VisualParameters visualParameters) {
+        this.visualParameters = visualParameters;
+    }
+
+    public GrowingTips getGrowingTips() {
+        return growingTips;
+    }
+
+    public void setGrowingTips(GrowingTips growingTips) {
+        this.growingTips = growingTips;
+    }
+
     @Override
     public String toString() {
         return "Flower{" +
@@ -64,34 +87,50 @@ public class Flower {
                 '}';
     }
 
-    public boolean fromXMLDOM(String xmlPath, String xsdPath) {
-        if (!XMLValidation.validateXML(xsdPath, xmlPath)) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flower flower = (Flower) o;
+        return Objects.equals(name, flower.name) && soil == flower.soil && Objects.equals(origin, flower.origin) &&
+                Objects.equals(visualParameters, flower.visualParameters) &&
+                Objects.equals(growingTips, flower.growingTips) && multiplying == flower.multiplying;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, soil, origin, visualParameters, growingTips, multiplying);
+    }
+
+    private void copyFlower(Flower otherFlower) {
+        this.name = otherFlower.name;
+        this.soil = otherFlower.soil;
+        this.origin = otherFlower.origin;
+        this.visualParameters = otherFlower.visualParameters;
+        this.growingTips = otherFlower.growingTips;
+        this.multiplying = otherFlower.multiplying;
+    }
+
+    public boolean fromXML(String xmlPath, String xsdPath, FlowerXMLParser parser) {
+        Flower parsedFlower = parser.parseFlowerFromXML(xmlPath, xsdPath);
+        if (parsedFlower == null) {
             return false;
         }
-        try {
-            DocumentBuilder db = null;
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            db = dbf.newDocumentBuilder();
-            Document doc = null;
-            doc = db.parse(new File(xmlPath));
-            Element root = doc.getDocumentElement();
-            name = root.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue();
-            soil = ParseEnum.parseSoil(root.getElementsByTagName("soil").item(0).getChildNodes().item(0).getNodeValue());
-            origin = root.getElementsByTagName("origin").item(0).getChildNodes().item(0).getNodeValue();
-            visualParameters = new VisualParameters(
-                    root.getElementsByTagName("stemColor").item(0).getChildNodes().item(0).getNodeValue(),
-                    root.getElementsByTagName("leafColor").item(0).getChildNodes().item(0).getNodeValue(),
-                    Double.parseDouble(root.getElementsByTagName("meanSize").item(0).getChildNodes().item(0).getNodeValue()));
-            growingTips = new GrowingTips(
-                    Double.parseDouble(root.getElementsByTagName("temperature").item(0).getChildNodes().item(0).getNodeValue()),
-                    Boolean.parseBoolean(root.getElementsByTagName("preferLighting").item(0).getChildNodes().item(0).getNodeValue()),
-                    Double.parseDouble(root.getElementsByTagName("watering").item(0).getChildNodes().item(0).getNodeValue()));
-            multiplying = ParseEnum.parseMultiplying(root.getElementsByTagName("multiplying").item(0).getChildNodes().item(0).getNodeValue());
-        } catch (IOException | ParserConfigurationException | SAXException e) {
-            System.out.println("Exception: " + e.getMessage());
-            return false;
-        }
+        // copy contents of parsedFlower to this
+        copyFlower(parsedFlower);
         return true;
+    }
+
+    public boolean fromXMLDOM(String xmlPath, String xsdPath) {
+        return fromXML(xmlPath, xsdPath, new FlowerDOMXMLParser());
+    }
+
+    public boolean fromXMLSAX(String xmlPath, String xsdPath) {
+        return fromXML(xmlPath, xsdPath, new FlowerSAXXMLParser());
+    }
+
+    public boolean fromXMLStAX(String xmlPath, String xsdPath) {
+        return fromXML(xmlPath, xsdPath, new FlowerStAXXMLParser());
     }
 
 }

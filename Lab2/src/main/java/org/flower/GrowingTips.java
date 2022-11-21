@@ -1,9 +1,13 @@
 package org.flower;
 
+import java.util.Objects;
+
 public class GrowingTips {
     private double temperature;
     private boolean preferLighting;
     private double watering;
+
+    public GrowingTips() {}
 
     public GrowingTips(double temperature, boolean preferLighting, double watering) {
         this.temperature = temperature;
@@ -42,5 +46,18 @@ public class GrowingTips {
                 ", preferLighting=" + preferLighting +
                 ", watering=" + watering +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GrowingTips that = (GrowingTips) o;
+        return Double.compare(that.temperature, temperature) == 0 && preferLighting == that.preferLighting && Double.compare(that.watering, watering) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(temperature, preferLighting, watering);
     }
 }

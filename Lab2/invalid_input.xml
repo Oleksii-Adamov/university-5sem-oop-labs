@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flower id = "ID-1">
     <name>Rose</name>
-    <soil>podzol</soil>
+    <soil>some soil</soil>
     <origin>Ukraine</origin>
     <visualParameters>
         <stemColor>green</stemColor>
