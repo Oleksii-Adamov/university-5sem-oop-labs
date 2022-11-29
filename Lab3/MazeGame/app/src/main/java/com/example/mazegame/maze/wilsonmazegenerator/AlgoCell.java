@@ -6,6 +6,8 @@ public class AlgoCell extends Cell {
 
     private CellState state = CellState.NOT_IN_MAZE;
 
+    private AlgoCell nextCell = null;
+
     public AlgoCell(int row, int col) {
         super(row, col);
     }
@@ -14,24 +16,20 @@ public class AlgoCell extends Cell {
         state = CellState.IN_MAZE;
     }
 
-    public void putInPath() {
-        state = CellState.IN_PATH;
-    }
-
-    public void removeFromPath() {
-        state = CellState.NOT_IN_MAZE;
-    }
-
     public boolean isInMaze() {
         return state == CellState.IN_MAZE;
     }
 
-    public boolean isInPath() {
-        return state == CellState.IN_PATH;
-    }
-
     public boolean isNotInMaze() {
         return state == CellState.NOT_IN_MAZE;
+    }
+
+    public AlgoCell getNextCell() {
+        return nextCell;
+    }
+
+    public void setNextCell(AlgoCell nextCell) {
+        this.nextCell = nextCell;
     }
 
     public void removeWall(AlgoCell otherCell) {

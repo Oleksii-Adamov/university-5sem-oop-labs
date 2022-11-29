@@ -59,29 +59,11 @@ public class GameView extends View {
         drawBackground(canvas);
         System.out.println("Checking for done");
         try {
-            mazeGeneration.get(1, TimeUnit.MILLISECONDS);
+            mazeGeneration.get(1, TimeUnit.SECONDS);
             System.out.println("Done");
             System.out.println(Arrays.deepToString(maze));
             drawMaze(canvas);
             drawPlayer(canvas);
-//            if (maze != null && mazeGeneration.isDone()) {
-//                System.out.println("Done");
-//                System.out.println(Arrays.deepToString(maze));
-//                drawMaze(canvas);
-//                drawPlayer(canvas);
-//            }
-//            else {
-//                System.out.println("Not Done");
-//                StringBuilder stringBuilder = new StringBuilder("Creating maze");
-//                for (int i = 0; i < loadingDotCounter; i++) {
-//                    stringBuilder.append('.');
-//                }
-//                loadingDotCounter++;
-//                if (loadingDotCounter > 3) loadingDotCounter = 1;
-//                canvas.drawText(stringBuilder.toString(), width / 2 - 50, height / 2, textPaint);
-//                //canvas.drawText(stringBuilder.toString(), 5, 5, textPaint);
-//                invalidate();
-//            }
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -104,7 +86,6 @@ public class GameView extends View {
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
             if(movePlayer(event)) {
                 if (player.isEscaped()) {
-                    maze = null;
                     mazeGeneration = executorService.submit(() -> {
                         maze = mazeGenerator.generateMaze(numRows, numCols);
                         player.reset(maze);

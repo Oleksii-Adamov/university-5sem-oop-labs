@@ -57,41 +57,26 @@ public class WilsonMazeGenerator implements MazeGenerator {
         int numCells = numRows * numCols;
         while (cellsInMaze < numCells) {
             AlgoCell startingCell = randomNotMazeCell();
-            Deque<AlgoCell> path = new ArrayDeque<>();
-            startingCell.putInPath();
-            path.addFirst(startingCell);
+            System.out.println("startingCell = " + startingCell);
+            AlgoCell prevCell = startingCell;
             boolean continueWalk = true;
-
             while (continueWalk) {
-                AlgoCell prevCell = path.peekFirst();
                 AlgoCell nextCell = randomNeighbour(prevCell);
-                System.out.println("prevCell = " + prevCell);
-                System.out.println("nextCell = " + nextCell);
-                if (nextCell.isNotInMaze()) {
-                    nextCell.putInPath();
-                    path.addFirst(nextCell);
-                }
-                else if (nextCell.isInMaze()) {
-                    path.addFirst(nextCell);
+                prevCell.setNextCell(nextCell);
+                if (nextCell.isInMaze()) {
+                    nextCell.setNextCell(null);
                     continueWalk = false;
                 }
-                else if (nextCell.isInPath()) {
-                    while (path.peekFirst() != nextCell) {
-                        AlgoCell removedCell = path.removeFirst();
-                        removedCell.removeFromPath();
-                        System.out.println("removing " + removedCell);
-                    }
-                }
+                System.out.println("nextCell = " + nextCell);
+                prevCell = nextCell;
             }
-            cellsInMaze += path.size() - 1;
-            AlgoCell prevCell = null;
-            while (!path.isEmpty()) {
-                AlgoCell curCell = path.removeFirst();
-                System.out.println("adding to maze" + curCell);
-                if (prevCell != null)
-                    prevCell.removeWall(curCell);
+            AlgoCell curCell = startingCell;
+            while (curCell.getNextCell() != null) {
                 curCell.putInMaze();
-                prevCell = curCell;
+                cellsInMaze++;
+                curCell.removeWall(curCell.getNextCell());
+                System.out.println("adding to maze " + curCell);
+                curCell = curCell.getNextCell();
             }
         }
         // making exit
