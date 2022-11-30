@@ -1,6 +1,8 @@
 package com.example.mazegame;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,7 +14,6 @@ import androidx.annotation.Nullable;
 
 import com.example.mazegame.maze.Cell;
 import com.example.mazegame.maze.MazeGenerator;
-import com.example.mazegame.maze.wilsonmazegenerator.AlgoCell;
 import com.example.mazegame.maze.wilsonmazegenerator.WilsonMazeGenerator;
 
 import java.util.Arrays;
@@ -23,11 +24,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class GameView extends View {
+public class MazeView extends View {
     private Cell[][] maze;
     private final MazeGenerator mazeGenerator = new WilsonMazeGenerator();
-    private int numRows = 10;
-    private int numCols = 7;
+    private int numRows = 0;
+    private int numCols = 0;
     private float cellSize;
     private float verticalMargin;
     private float horizontalMargin;
@@ -43,13 +44,27 @@ public class GameView extends View {
     private Paint textPaint;
     private Paint playerPaint;
 
-    public GameView(Context context, @Nullable AttributeSet attrs) {
+    public MazeView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initPaints();
-        mazeGeneration = executorService.submit(() -> {
-            maze = mazeGenerator.generateMaze(numRows, numCols);
-            player = new Player(maze);
-        });
+
+    }
+
+    public void setNumRows(int numRows) {
+        this.numRows = numRows;
+    }
+
+    public void setNumCols(int numCols) {
+        this.numCols = numCols;
+    }
+
+    public void generateMaze() {
+        if (numRows > 0 && numCols > 0) {
+            mazeGeneration = executorService.submit(() -> {
+                maze = mazeGenerator.generateMaze(numRows, numCols);
+                player = new Player(maze);
+            });
+        }
     }
 
     @Override
@@ -198,5 +213,26 @@ public class GameView extends View {
     private void initPlayerPaint() {
         playerPaint = new Paint();
         playerPaint.setColor(Color.RED);
+    }
+
+    private void stop() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.finish();
+        }
+        else {
+            System.out.println("No hosting activity for MazeView");
+        }
+    }
+
+    private Activity getActivity() {
+        Context context = getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity)context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
     }
 }
