@@ -1,19 +1,15 @@
 package com.example.mazegame;
 
-import static java.security.AccessController.getContext;
+import static android.util.TypedValue.COMPLEX_UNIT_SP;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -31,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private LevelsDbHelper dbHelper;
     private Map<Integer, Button> levelButtonsMap;
     private final int mazeRequestCode = 1;
+    private final int EXIT_BUTTON_TEXIT_SIZE_SP = 20;
+    private final int LEVEL_BUTTON_TEXT_SIZE_SP = 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +46,7 @@ public class MainActivity extends AppCompatActivity {
         exitButtonRow.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         exitButtonRow.setGravity(Gravity.START);
-        Button exitButton = new Button(this);
-        exitButton.setLayoutParams(new LinearLayout.LayoutParams
-                (LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-        exitButton.setText("Exit");
-        exitButton.setOnClickListener(v -> {/*finish();System.exit(0);*/finishAndRemoveTask();});
-        exitButtonRow.addView(exitButton);
+        exitButtonRow.addView(createExitButton());
         layout.addView(exitButtonRow);
 
         // levels buttons
@@ -83,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
             levelButton.setLayoutParams(new LinearLayout.LayoutParams
                     (LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
-            levelButton.setText(rows + "x" + cols + " Score: " + score);
+            Resources res = getResources();
+            levelButton.setText(String.format(res.getString(R.string.level_info), rows, cols, score));
             levelButton.setOnClickListener(v -> {
                 Intent intent = new Intent(MainActivity.this, MazeActivity.class);
                 intent.putExtra("id", id);
@@ -93,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
                  // Or some number you choose
                 startActivityForResult(intent, mazeRequestCode);
             });
+            levelButton.setTextSize(COMPLEX_UNIT_SP, LEVEL_BUTTON_TEXT_SIZE_SP);
+            levelButton.setAllCaps(false);
+
             levelButtonsMap.put(id, levelButton);
             levelsButtons.addView(levelButton);
         }
@@ -104,25 +100,48 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(() -> setContentView(layout));
     }
 
+    private Button createExitButton() {
+        Button exitButton = new Button(this);
+        exitButton.setLayoutParams(new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+        exitButton.setText(R.string.exit);
+        exitButton.setTextSize(COMPLEX_UNIT_SP, EXIT_BUTTON_TEXIT_SIZE_SP);
+        exitButton.setOnClickListener(v -> exit());
+        return exitButton;
+    }
+
+    public void exit() {
+        finishAndRemoveTask();
+//        finish();System.exit(0);
+    }
+
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == mazeRequestCode && resultCode == RESULT_OK) {
-            changeUILevelScore();
+            executorService.submit(() -> updateLevelUI(data.getIntExtra("id", 0)));
         }
     }
 
-    public void changeUILevelScore() {
-        for (Map.Entry<Integer,Button> entry : levelButtonsMap.entrySet()) {
-            int id = entry.getKey();
-            Cursor levelCursor = dbHelper.getLevel(id);
-            levelCursor.moveToNext();
-            int rows = levelCursor.getInt(levelCursor.getColumnIndexOrThrow(
-                    LevelsContract.LevelsEntry.COLUMN_NAME_ROWS));
-            int cols = levelCursor.getInt(levelCursor.getColumnIndexOrThrow(
-                    LevelsContract.LevelsEntry.COLUMN_NAME_COLS));
-            int score = levelCursor.getInt(levelCursor.getColumnIndexOrThrow(
-                    LevelsContract.LevelsEntry.COLUMN_NAME_SCORE));
-            entry.getValue().setText(rows + "x" + cols + " Score: " + score);
+    public void updateLevelUI(int id) {
+        Cursor levelCursor = dbHelper.getLevel(id);
+        levelCursor.moveToNext();
+        int rows = levelCursor.getInt(levelCursor.getColumnIndexOrThrow(
+                LevelsContract.LevelsEntry.COLUMN_NAME_ROWS));
+        int cols = levelCursor.getInt(levelCursor.getColumnIndexOrThrow(
+                LevelsContract.LevelsEntry.COLUMN_NAME_COLS));
+        int score = levelCursor.getInt(levelCursor.getColumnIndexOrThrow(
+                LevelsContract.LevelsEntry.COLUMN_NAME_SCORE));
+        Button button = levelButtonsMap.get(id);
+        if (button != null) {
+            Resources res = getResources();
+            runOnUiThread(() -> button.setText(String.format(res.getString(R.string.level_info), rows, cols, score)));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        dbHelper.close();
+        super.onDestroy();
     }
 }

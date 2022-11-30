@@ -3,4 +3,6 @@
     <string name="title_activity_maze">MazeActivity</string>
     <string name="back">Back</string>
     <string name="score">Score: %1$d</string>
+    <string name="exit">Exit</string>
+    <string name="level_info">%1$dx%2$d\nScore: %3$d</string>
 </resources>

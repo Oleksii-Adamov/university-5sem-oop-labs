@@ -42,7 +42,6 @@ public class MazeView extends View {
     private ExecutorService executorService = Executors.newFixedThreadPool(4);
     private Future mazeGeneration;
     private Player player;
-    private int loadingDotCounter = 1;
     private Paint wallPaint;
     private Paint textPaint;
     private Paint playerPaint;
@@ -92,15 +91,7 @@ public class MazeView extends View {
             e.printStackTrace();
         }
         catch (TimeoutException e) {
-            System.out.println("Not Done");
-            StringBuilder stringBuilder = new StringBuilder("Creating maze");
-            for (int i = 0; i < loadingDotCounter; i++) {
-                stringBuilder.append('.');
-            }
-            loadingDotCounter++;
-            if (loadingDotCounter > 3) loadingDotCounter = 1;
-            canvas.drawText(stringBuilder.toString(), width / 2 - 50, height / 2, textPaint);
-            //canvas.drawText(stringBuilder.toString(), 5, 5, textPaint);
+            //System.out.println("Not done");
             invalidate();
         }
     }

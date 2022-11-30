@@ -63,13 +63,22 @@ public class MazeActivity extends AppCompatActivity {
         executorService.submit(() -> dbHelper.updateScore(score, levelId));
     }
 
-    public void back(View v) throws InterruptedException {
-        System.out.println("Back");
-        setResult(RESULT_OK, new Intent());
-        System.out.println("setResult done");
+    public void back(View v) {
         executorService.shutdown();
-        executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        try {
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intent intent = new Intent();
+        intent.putExtra("id", levelId);
+        setResult(RESULT_OK, intent);
         finish();
-        System.out.println("finished");
+    }
+
+    @Override
+    protected void onDestroy() {
+        dbHelper.close();
+        super.onDestroy();
     }
 }
