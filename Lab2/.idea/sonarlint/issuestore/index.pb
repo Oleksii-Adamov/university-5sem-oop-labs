@@ -11,3 +11,33 @@ f
 6src/main/java/org/flower/parsexml/FlowerXMLParser.java,0\3\0380a4d188a97a5502c44062d6da0a3eabb33755
 a
 1src/main/java/org/flower/parsexml/FlowerTags.java,b\3\b3d7c65d611d97b3f400da4bb6439628867a0f36
+S
+#src/main/java/org/example/Main.java,0\b\0ba1b9c7a4878802f938e331cc2d8a042087ec6b
+;
+gradlew.bat,2\a\2a45a911a8f1836b0b6c5b758962572012d8f8c3
+A
+invalid_input.xml,d\6\d69573ce950e6ab4e4e923a6569199b0e3bf3f30
+Y
+)src/main/java/org/flower/GrowingTips.java,6\c\6c5a43119cf5b4700ddc85f4f45c80a9951f6e5f
+Y
+)src/main/java/org/flower/Multiplying.java,b\e\be5c2a02b659f4aa5088b204ec4c8cfa3710429c
+^
+.src/main/java/org/flower/VisualParameters.java,e\a\eabb5ec4c52fc1c16d8009ac5779e04b85662333
+b
+2src/main/java/org/xmlvalidation/XMLValidation.java,7\e\7e032ab79e42e3771b5c89f70aa12f03bd1d5360
+`
+0src/test/java/org/flower/FlowerParseXMLTest.java,2\3\23c698f1772aa29b2bfa9932351260443274a4ce
+9
+	input.xml,9\e\9e767aedff1384cf0508d56497633c289919a9ef
+9
+	input.xsd,2\d\2d54e5d0b459cae6ae0b864feb3aebc3e99ed125
+T
+$src/main/java/org/flower/Flower.java,6\0\60659fd331b947aebabca4a4995bf91f9de67090
+j
+:src/main/java/org/flower/parsexml/FlowerStAXXMLParser.java,c\7\c79762b9c4529010d45df41a69ce576d1a4aa44f
+g
+7src/main/java/org/flower/parsexml/FlowerSAXHandler.java,4\2\42d485c744ea536a57295166eee7410ba5b47751
+i
+9src/main/java/org/flower/parsexml/FlowerDOMXMLParser.java,9\5\9500277f5a32d41624a42c9c3fa68c96758811db
+i
+9src/main/java/org/flower/parsexml/FlowerSAXXMLParser.java,b\4\b4139b202a7e5cfcf2f66280dc62b0419dad5c49
