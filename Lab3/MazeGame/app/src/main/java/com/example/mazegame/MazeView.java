@@ -12,6 +12,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.example.mazegame.database.LevelsDbHelper;
 import com.example.mazegame.maze.Cell;
 import com.example.mazegame.maze.MazeGenerator;
 import com.example.mazegame.maze.wilsonmazegenerator.WilsonMazeGenerator;
@@ -29,6 +30,8 @@ public class MazeView extends View {
     private final MazeGenerator mazeGenerator = new WilsonMazeGenerator();
     private int numRows = 0;
     private int numCols = 0;
+    private int score = 0;
+    private final MazeActivity hostActivity;
     private float cellSize;
     private float verticalMargin;
     private float horizontalMargin;
@@ -46,16 +49,14 @@ public class MazeView extends View {
 
     public MazeView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        hostActivity = (MazeActivity) getActivity();
         initPaints();
-
     }
 
-    public void setNumRows(int numRows) {
+    public void setMazeParams(int numRows, int numCols, int score) {
         this.numRows = numRows;
-    }
-
-    public void setNumCols(int numCols) {
         this.numCols = numCols;
+        this.score = score;
     }
 
     public void generateMaze() {
@@ -67,16 +68,24 @@ public class MazeView extends View {
         }
     }
 
+    public void nextMaze() {
+        score++;
+        hostActivity.changeScore(score);
+        mazeGeneration = executorService.submit(() -> {
+            maze = mazeGenerator.generateMaze(numRows, numCols);
+            player.reset(maze);
+        });
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         width = getWidth();
         height = getHeight();
         drawBackground(canvas);
-        System.out.println("Checking for done");
+        //System.out.println("Checking for done");
         try {
             mazeGeneration.get(1, TimeUnit.SECONDS);
-            System.out.println("Done");
-            System.out.println(Arrays.deepToString(maze));
+            //System.out.println("Done");
             drawMaze(canvas);
             drawPlayer(canvas);
         } catch (ExecutionException | InterruptedException e) {
@@ -101,10 +110,7 @@ public class MazeView extends View {
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
             if(movePlayer(event)) {
                 if (player.isEscaped()) {
-                    mazeGeneration = executorService.submit(() -> {
-                        maze = mazeGenerator.generateMaze(numRows, numCols);
-                        player.reset(maze);
-                    });
+                    nextMaze();
                 }
                 invalidate();
             }
@@ -150,11 +156,11 @@ public class MazeView extends View {
     }
 
     private void drawMaze(Canvas canvas) {
-        if (width / height > numCols / numRows) {
-            cellSize = height / (float) (numRows + 2);
+        if (width / height < numCols / numRows) {
+            cellSize = width / (float) (numCols + 2);
         }
         else {
-            cellSize = width / (float) (numCols + 2);
+            cellSize = height / (float) (numRows + 2);
         }
         verticalMargin = (height - cellSize * numRows) / 2;
         horizontalMargin = (width - cellSize * numCols) / 2;
@@ -213,16 +219,6 @@ public class MazeView extends View {
     private void initPlayerPaint() {
         playerPaint = new Paint();
         playerPaint.setColor(Color.RED);
-    }
-
-    private void stop() {
-        Activity activity = getActivity();
-        if (activity != null) {
-            activity.finish();
-        }
-        else {
-            System.out.println("No hosting activity for MazeView");
-        }
     }
 
     private Activity getActivity() {

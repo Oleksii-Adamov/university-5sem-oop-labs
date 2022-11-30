@@ -2,64 +2,74 @@ package com.example.mazegame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mazegame.database.LevelsDbHelper;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class MazeActivity extends AppCompatActivity {
 
     private ExecutorService executorService;
+    private LevelsDbHelper dbHelper;
+    private int levelId;
+    private int levelRows;
+    private int levelCols;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maze);
         executorService = Executors.newFixedThreadPool(4);
-//        executorService.submit(this::launchMazeView);
         Bundle extras = getIntent().getExtras();
-        int score = 0, rows = 0, cols = 0;
+        int score = 0;
         if (extras != null) {
+            levelId = extras.getInt("id", 0);
+            levelRows = extras.getInt("rows", 0);
+            levelCols = extras.getInt("cols", 0);
             score = extras.getInt("score", 0);
-            rows = extras.getInt("rows", 0);
-            cols = extras.getInt("cols", 0);
         }
-        int finalRows = rows;
-        int finalCols = cols;
-        executorService.submit(() -> setupMazeView(finalRows, finalCols));
+        int finalRows = levelRows;
+        int finalCols = levelCols;
+        int finalScore = score;
+        executorService.submit(() -> setupMazeView(finalRows, finalCols, finalScore));
         changeScore(score);
     }
 
-    private void setupMazeView(int rows, int cols) {
+    private void setupMazeView(int rows, int cols, int score) {
         MazeView mazeView = new MazeView(this, null);
         mazeView.setLayoutParams(new LinearLayout.LayoutParams
                 (LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT));
-        LinearLayout gameLinearLayout = (LinearLayout) findViewById(R.id.gamelinearlayout);
+        LinearLayout gameLinearLayout = findViewById(R.id.gamelinearlayout);
         runOnUiThread(() -> gameLinearLayout.addView(mazeView));
-        mazeView.setNumRows(rows);
-        mazeView.setNumCols(cols);
+        dbHelper = new LevelsDbHelper(this);
+        mazeView.setMazeParams(rows, cols, score);
         mazeView.generateMaze();
     }
 
     public void changeScore(int score) {
-        TextView scoreView = (TextView) findViewById(R.id.scoreView);
+        TextView scoreView = findViewById(R.id.scoreView);
         Resources res = getResources();
         String scoreText = String.format(res.getString(R.string.score), score);
         scoreView.setText(scoreText);
+        executorService.submit(() -> dbHelper.updateScore(score, levelId));
     }
 
-    public void back(View v) {
+    public void back(View v) throws InterruptedException {
+        System.out.println("Back");
+        setResult(RESULT_OK, new Intent());
+        System.out.println("setResult done");
+        executorService.shutdown();
+        executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         finish();
+        System.out.println("finished");
     }
-
-//    private void launchMazeView() {
-//        MazeView mazeView = new MazeView(this);
-//        mazeView.setLayoutParams(new View.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT));
-//    }
 }

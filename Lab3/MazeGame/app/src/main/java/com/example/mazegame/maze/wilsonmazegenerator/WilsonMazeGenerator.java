@@ -3,10 +3,7 @@ package com.example.mazegame.maze.wilsonmazegenerator;
 import com.example.mazegame.maze.Cell;
 import com.example.mazegame.maze.MazeGenerator;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -57,7 +54,7 @@ public class WilsonMazeGenerator implements MazeGenerator {
         int numCells = numRows * numCols;
         while (cellsInMaze < numCells) {
             AlgoCell startingCell = randomNotMazeCell();
-            System.out.println("startingCell = " + startingCell);
+//            System.out.println("startingCell = " + startingCell);
             AlgoCell prevCell = startingCell;
             boolean continueWalk = true;
             while (continueWalk) {
@@ -67,7 +64,7 @@ public class WilsonMazeGenerator implements MazeGenerator {
                     nextCell.setNextCell(null);
                     continueWalk = false;
                 }
-                System.out.println("nextCell = " + nextCell);
+//                System.out.println("nextCell = " + nextCell);
                 prevCell = nextCell;
             }
             AlgoCell curCell = startingCell;
@@ -75,13 +72,13 @@ public class WilsonMazeGenerator implements MazeGenerator {
                 curCell.putInMaze();
                 cellsInMaze++;
                 curCell.removeWall(curCell.getNextCell());
-                System.out.println("adding to maze " + curCell);
+//                System.out.println("adding to maze " + curCell);
                 curCell = curCell.getNextCell();
             }
         }
         // making exit
         maze[numRows - 1][numCols - 1].removeBottomWall();
-        System.out.println("Exiting generator");
+//        System.out.println("Exiting generator");
         return maze;
     }
 }
