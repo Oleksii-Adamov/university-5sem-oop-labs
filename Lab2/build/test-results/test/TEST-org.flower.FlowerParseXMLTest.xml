@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.flower.FlowerParseXMLTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-11-21T20:55:29" hostname="DESKTOP-ARIKE4S" time="0.198">
+<testsuite name="org.flower.FlowerParseXMLTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-11-30T16:04:02" hostname="DESKTOP-ARIKE4S" time="0.497">
   <properties/>
-  <testcase name="fromXMLStAXTest()" classname="org.flower.FlowerParseXMLTest" time="0.147"/>
-  <testcase name="fromXMLDOMTest()" classname="org.flower.FlowerParseXMLTest" time="0.028"/>
-  <testcase name="fromXMLSAXTest()" classname="org.flower.FlowerParseXMLTest" time="0.02"/>
+  <testcase name="fromXMLStAXTest()" classname="org.flower.FlowerParseXMLTest" time="0.353"/>
+  <testcase name="fromXMLDOMTest()" classname="org.flower.FlowerParseXMLTest" time="0.08"/>
+  <testcase name="fromXMLSAXTest()" classname="org.flower.FlowerParseXMLTest" time="0.06"/>
   <system-out><![CDATA[Exception: cvc-enumeration-valid: Value 'some soil' is not facet-valid with respect to enumeration '[podzol, dirt, sod-podzol]'. It must be a value from the enumeration.
 Exception: cvc-enumeration-valid: Value 'some soil' is not facet-valid with respect to enumeration '[podzol, dirt, sod-podzol]'. It must be a value from the enumeration.
 Exception: cvc-enumeration-valid: Value 'some soil' is not facet-valid with respect to enumeration '[podzol, dirt, sod-podzol]'. It must be a value from the enumeration.
