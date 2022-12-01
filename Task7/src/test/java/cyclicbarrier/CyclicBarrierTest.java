@@ -41,7 +41,7 @@ class CyclicBarrierTest {
                     try {
                         Thread.sleep(baseSleepTimeMs * (finalI + 1));
                         arr.add(finalI);
-                        System.out.println(finalI);
+                        //System.out.println(finalI);
                         cyclicBarrier.await();
                         // should be done after assertion in barrier action
                         arr.add(finalI);

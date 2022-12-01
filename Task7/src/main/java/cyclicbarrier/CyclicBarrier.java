@@ -34,13 +34,13 @@ public class CyclicBarrier {
         if (parties == numParties) {
             runBarrierAction();
             breakBarrier();
+            notifyAll();
         }
         else {
             while (!barrierBroken) {
                 wait();
             }
         }
-        notify();
     }
 
     private void breakBarrier() {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="phaser.PhaserTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-12-01T00:51:59" hostname="DESKTOP-ARIKE4S" time="2.567">
+  <properties/>
+  <testcase name="arriveAndDeregisterAndAwaitAdvanceTest()" classname="phaser.PhaserTest" time="1.549"/>
+  <testcase name="arriveAndAwaitAdvanceTest()" classname="phaser.PhaserTest" time="0.004"/>
+  <testcase name="arriveTest()" classname="phaser.PhaserTest" time="1.012"/>
+  <system-out><![CDATA[arriveAndDeregister
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
