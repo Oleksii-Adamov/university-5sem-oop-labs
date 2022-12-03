@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="queue.nonblockingqueue.NonBlockingMichaelScottQueueTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-11-30T18:54:41" hostname="DESKTOP-ARIKE4S" time="0.031">
+<testsuite name="queue.nonblockingqueue.NonBlockingMichaelScottQueueTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-12-03T14:37:23" hostname="DESKTOP-ARIKE4S" time="0.038">
   <properties/>
-  <testcase name="oneThreadTest()" classname="queue.nonblockingqueue.NonBlockingMichaelScottQueueTest" time="0.02"/>
+  <testcase name="oneThreadTest()" classname="queue.nonblockingqueue.NonBlockingMichaelScottQueueTest" time="0.027"/>
   <testcase name="multipleThreadDequeueTest()" classname="queue.nonblockingqueue.NonBlockingMichaelScottQueueTest" time="0.005"/>
   <testcase name="multipleThreadEnqueueTest()" classname="queue.nonblockingqueue.NonBlockingMichaelScottQueueTest" time="0.004"/>
   <system-out><![CDATA[]]></system-out>

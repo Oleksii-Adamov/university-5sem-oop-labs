@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="reentrantlock.ReentrantLockTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-12-01T11:21:22" hostname="DESKTOP-ARIKE4S" time="0.675">
+<testsuite name="reentrantlock.ReentrantLockTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-12-03T14:37:02" hostname="DESKTOP-ARIKE4S" time="0.78">
   <properties/>
-  <testcase name="tryLockTest()" classname="reentrantlock.ReentrantLockTest" time="0.67"/>
-  <testcase name="lockUnlockTest()" classname="reentrantlock.ReentrantLockTest" time="0.004"/>
+  <testcase name="tryLockTest()" classname="reentrantlock.ReentrantLockTest" time="0.695"/>
+  <testcase name="lockUnlockTest()" classname="reentrantlock.ReentrantLockTest" time="0.074"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

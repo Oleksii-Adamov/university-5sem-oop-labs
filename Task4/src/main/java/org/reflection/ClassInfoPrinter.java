@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 public class ClassInfoPrinter {
+
+    private ClassInfoPrinter() {}
     public static void printClassInfo(Class<?> inspectedClass) {
         System.out.println("Class info:");
         System.out.println("name " + inspectedClass.getSimpleName());
